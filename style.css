@@ -39,9 +39,9 @@ a:visited {
 
 /* SIDEBAR */
 .sidebar {
-  flex-basis: 50rem;
+  flex-basis: 21%;
   background-color: var(--color-dark--1);
-  padding: 3rem 5rem 4rem 5rem;
+  padding: 25px;
   display: flex;
   flex-direction: column;
 }
@@ -214,4 +214,13 @@ a:visited {
 }
 .cycling-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid var(--color-brand--1);
+}
+
+@media screen and (max-width: 1000px) {
+  body {
+    flex-direction: column-reverse;
+  }
+  .sidebar {
+    max-height: 30%;
+  }
 }
