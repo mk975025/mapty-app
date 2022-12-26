@@ -14,16 +14,27 @@ const inputElevation = document.querySelector('.form__input--elevation');
 //gather and set user coordinates via geolocation api with google maps
 function success(pos) {
   const { latitude, longitude } = pos.coords;
+
   const map = L.map('map').setView([latitude, longitude], 13);
+
   L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    maxBoundsViscosity: 1.0,
+    noWrap: true,
   }).addTo(map);
 
   L.marker([latitude, longitude])
     .addTo(map)
     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
     .openPopup();
+
+  map.setMaxBounds([
+    [-90, -180],
+    [90, 180],
+  ]);
+
+  map.options.minZoom = 3;
 }
 
 function error() {
