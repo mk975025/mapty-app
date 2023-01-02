@@ -1,7 +1,4 @@
 'use strict';
-
-// prettier-ignore
-
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -60,11 +57,12 @@ class App {
   #map;
   #mapEvent;
   #workouts = [];
-
+  #mapZoomLevel = 13;
   constructor() {
     this._getPosition();
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
+    containerWorkouts.addEventListener('click', this._moveToMarker.bind(this));
   }
 
   _getPosition() {
@@ -83,7 +81,7 @@ class App {
 
     this.#map = L.map('map', { maxBoundsViscosity: 1 }).setView(
       [latitude, longitude],
-      13
+      this.#mapZoomLevel
     );
 
     L.marker([latitude, longitude])
@@ -244,6 +242,21 @@ class App {
 
   _error() {
     alert('Could not get your position');
+  }
+
+  _moveToMarker(e) {
+    const workoutEl = e.target.closest('.workout');
+    if (!workoutEl) return;
+    const workout = this.#workouts.find(
+      workout => workout.id === workoutEl.dataset.id
+    );
+
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 
