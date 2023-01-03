@@ -274,12 +274,18 @@ class App {
   }
 
   _getLocalStorage() {
+    console.log(this.#map)
     const data = JSON.parse(localStorage.getItem('workouts'));
     if (!data) return;
     this.#workouts = data;
     this.#workouts.forEach(workout => {
       this._renderWorkout(workout);
     });
+  }
+
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 }
 
